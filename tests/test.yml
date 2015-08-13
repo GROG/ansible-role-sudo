@@ -6,6 +6,6 @@
       sudo_list:
         - name: test
           sudo:
-            - hosts: ALL
-            - as: ALL
-            - commands: ALL
+            hosts: ALL
+            as: ALL
+            commands: ALL

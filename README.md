@@ -48,16 +48,16 @@ Each item in the list can have following attributes:
 sudo_list:
   - name: root
     sudo:
-      - hosts: ALL
-      - as: ALL
-      - commands: ALL
+      hosts: ALL
+      as: ALL
+      commands: ALL
   - name: user1
   - name: user2
     sudo:
-      - hosts: ALL
-      - as: ALL
-      - commands: ALL
-      - nopasswd: yes
+      hosts: ALL
+      as: ALL
+      commands: ALL
+      nopasswd: yes
 ```
 
 #### `sudo_***_aliases` details
@@ -99,9 +99,9 @@ Inside `group_vars/servers.yml`:
 sudo_list_group:
   - name: user
     sudo:
-      - hosts: ALL
-      - as: ALL
-      - commands: ALL
+      hosts: ALL
+      as: ALL
+      commands: ALL
 ```
 
 ## License
