@@ -1,5 +1,13 @@
 ---
 
+- name: Make sure sudoers.d dir is available
+  file:
+    path: "{{ sudo_sudoersd_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0750
+
 - name: Enable sudoers.d
   lineinfile:
     backup: yes
@@ -14,7 +22,7 @@
     dest: "{{ sudo_sudoersd_dir }}/00defaults"
     owner: root
     group: root
-    mode: 440
+    mode: 0440
     validate: visudo -cf %s
   when: sudo_defaults | length > 0
 
@@ -24,7 +32,7 @@
     dest: "{{ sudo_sudoersd_dir }}/10aliases"
     owner: root
     group: root
-    mode: 440
+    mode: 0440
     validate: visudo -cf %s
   when: ( (sudo_host_aliases | length > 0) or
           (sudo_user_aliases | length > 0) or
@@ -37,7 +45,7 @@
     dest: "{{ sudo_sudoersd_dir }}/20{{ item.name }}"
     owner: root
     group: root
-    mode: 440
+    mode: 0440
     validate: visudo -cf %s
   when: item.sudo is defined
   with_flattened:
