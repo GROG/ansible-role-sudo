@@ -5,7 +5,7 @@
     backup: yes
     dest: /etc/sudoers
     line: "#includedir {{ sudo_sudoersd_dir }}"
-    regexp: '^#include .*'
+    regexp: '^#includedir .*'
     validate: visudo -cf %s
 
 - name: Apply sudoers defaults configuration
@@ -39,6 +39,7 @@
     group: root
     mode: 440
     validate: visudo -cf %s
+  when: item.sudo is defined
   with_flattened:
     - sudo_list
     - sudo_list_group
