@@ -4,7 +4,7 @@
   lineinfile:
     backup: yes
     dest: /etc/sudoers
-    line: "#include {{ sudo_sudoersd_dir }}"
+    line: "#includedir {{ sudo_sudoersd_dir }}"
     regexp: '^#include .*'
     validate: visudo -cf %s
 
