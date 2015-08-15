@@ -1,10 +1,45 @@
 ---
 
-- name: Apply sudoers configuration
+- name: Enable sudoers.d
+  lineinfile:
+    backup: yes
+    dest: /ect/sudoers
+    line: "#include {{ sudo_sudoersd_dir }}"
+    regexp: '^#include .*'
+    validate: visudo -cf %s
+
+- name: Apply sudoers defaults configuration
   template:
-    src: etc-sudoers.j2
-    dest: /etc/sudoers
+    src: etc-sudoers.d-defaults_template.j2
+    dest: "{{ sudo_sudoersd_dir }}/00defaults"
     owner: root
     group: root
     mode: 440
     validate: visudo -cf %s
+  when: sudo_defaults.0 is defined
+
+- name: Apply sudoers aliases configuration
+  template:
+    src: etc-sudoers.d-aliases_template.j2
+    dest: "{{ sudo_sudoersd_dir }}/10aliases"
+    owner: root
+    group: root
+    mode: 440
+    validate: visudo -cf %s
+  when: ( sudo_host_aliases.0 is defined or
+          sudo_user_aliases.0 is defined or
+          sudo_runas_aliases.0 is defined or
+          sudo_cmnd_aliases.0 is defined )
+
+- name: Apply sudoers user configuration
+  template:
+    src: etc-sudoers.d-user_template.j2
+    dest: "{{ sudo_sudoersd_dir }}/20{{ item.name }}"
+    owner: root
+    group: root
+    mode: 440
+    validate: visudo -cf %s
+  with_flattened:
+    - sudo_list
+    - sudo_list_group
+    - sudo_list_host

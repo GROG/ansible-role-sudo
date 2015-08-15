@@ -1,3 +1,0 @@
----
-
-sudo_list_all: "{{ sudo_list + sudo_list_host + sudo_list_group }}"

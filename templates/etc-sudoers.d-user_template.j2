@@ -1,0 +1,6 @@
+# {{ ansible_managed }}
+
+# User privilege specification
+{% if item.sudo is defined %}
+{{ item.name }} {{ item.sudo.hosts }}=({{ item.sudo.as }}){{ " NOPASSWD:" if ( item.sudo.nopasswd | default(false) ) else "" }} {{ item.sudo.commands }}
+{% endif %}

@@ -1,10 +1,5 @@
 # {{ ansible_managed }}
 
-# Defaults
-{% for defaults in sudo_defaults %}
-Defautls {{ defaults }}
-{% endfor %}
-
 # Host alias specification
 {% for host_alias in sudo_host_aliases %}
 Host_Alias {{ host_alias.name }} = {{ host_alias.alias }}
@@ -24,14 +19,3 @@ Runas_Alias {{ runas_alias.name }} = {{ runas_alias.alias }}
 {% for cmnd_alias in sudo_cmnd_aliases %}
 Cmnd_Alias {{ cmnd_alias.name }} = {{ cmnd_alias.alias }}
 {% endfor %}
-
-# User privilege specification
-{% for user in sudo_list_all %}
-{% if user.sudo is defined %}
-{{ user.name }} {{ user.sudo.hosts }}=({{ user.sudo.as }}){{ " NOPASSWD:" if ( user.sudo.nopasswd | default(false) ) else "" }} {{ user.sudo.commands }}
-{% endif %}
-{% endfor %}
-
-{% if sudo_sudoersd %}
-#includedir {{ sudo_sudoersd_dir }}
-{% endif %}

@@ -24,8 +24,5 @@ sudo_runas_aliases: []
 # Cmnd aliasses
 sudo_cmnd_aliases: []
 
-# Use sudoersd?
-sudo_sudoersd: yes
-
 # Sudoersd directory
 sudo_sudoersd_dir: /etc/sudoers.d

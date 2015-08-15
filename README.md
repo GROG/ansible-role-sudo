@@ -1,7 +1,7 @@
 # Sudo
 
 [![Ansible Galaxy](http://img.shields.io/badge/galaxy-GROG.sudo-660198.svg?style=flat)](https://galaxy.ansible.com/list#/roles/4765)
-[![Build Status](https://travis-ci.org/GROG/ansible-role-sudo.svg?branch=master)](https://travis-ci.org/GROG/ansible-role-sudo)
+[![Build Status](https://travis-ci.org/GROG/ansible-role-sudo.svg?branch=development)](https://travis-ci.org/GROG/ansible-role-sudo)
 
 A role for managing sudo.
 
@@ -23,7 +23,6 @@ A role for managing sudo.
 | `sudo_user_aliases` | List of user aliases **(see details!)** | `[]` |
 | `sudo_runas_aliases` | List of run as aliases **(see details!)** | `[]` |
 | `sudo_cmnd_aliases` | List of command aliases **(see details!)** | `[]` |
-| `sudo_sudoersd` | Use sudoersd ? | `yes` |
 | `sudo_sudoersd_dir` | Sudoersd directory | '/etc/sudoers.d' |
 
 #### `sudo_list` details
