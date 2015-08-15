@@ -3,7 +3,7 @@
 - name: Enable sudoers.d
   lineinfile:
     backup: yes
-    dest: /ect/sudoers
+    dest: /etc/sudoers
     line: "#include {{ sudo_sudoersd_dir }}"
     regexp: '^#include .*'
     validate: visudo -cf %s
@@ -16,7 +16,7 @@
     group: root
     mode: 440
     validate: visudo -cf %s
-  when: sudo_defaults.0 is defined
+  when: sudo_defaults | length > 0
 
 - name: Apply sudoers aliases configuration
   template:
@@ -26,10 +26,10 @@
     group: root
     mode: 440
     validate: visudo -cf %s
-  when: ( sudo_host_aliases.0 is defined or
-          sudo_user_aliases.0 is defined or
-          sudo_runas_aliases.0 is defined or
-          sudo_cmnd_aliases.0 is defined )
+  when: ( (sudo_host_aliases | length > 0) or
+          (sudo_user_aliases | length > 0) or
+          (sudo_runas_aliases | length > 0) or
+          (sudo_cmnd_aliases | length > 0) )
 
 - name: Apply sudoers user configuration
   template:
