@@ -3,6 +3,7 @@
   remote_user: root
   roles:
     - role: ansible-role-sudo
+      sudo_default_sudoers: no
       sudo_list:
         - name: test
           sudo:
