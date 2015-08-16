@@ -9,6 +9,9 @@ sudo_list_host: []
 # list of sudo users
 sudo_list_group: []
 
+# Restore default sudoers file?
+sudo_default_sudoers: yes
+
 # Defaults
 sudo_defaults: []
 

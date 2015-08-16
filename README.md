@@ -5,6 +5,14 @@
 
 A role for managing sudo.
 
+This role uses sudoers.d to manage the sudo capabilities of your users. Each
+user gets its own sudoers.d file. This means the role can be used from multiple
+roles to add and manage new users without interfering with the other
+users/roles.
+
+The defaults and aliases however can only be managed from one location and
+should not be specified if you add this role as a dependency to your own role.
+
 ## Requirements
 
 - Hosts should be bootstrapped for ansible usage (have python,...)
@@ -18,6 +26,7 @@ A role for managing sudo.
 | `sudo_list` | List of users and their sudo settings **(see details!)** | `[]` |
 | `sudo_list_host`| List of users and their sudo settings **(see details!)**  | `[]` |
 | `sudo_list_group` | List of users and their sudo settings **(see details!)** | `[]` |
+| `sudo_default_sudoers` | Restore default sudoers file if altered? | `yes` |
 | `sudo_defaults` | List of defaults | `[]` |
 | `sudo_host_aliases` | List of host aliases **(see details!)** | `[]` |
 | `sudo_user_aliases` | List of user aliases **(see details!)** | `[]` |
