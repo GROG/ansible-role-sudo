@@ -26,8 +26,8 @@ should not be specified if you add this role as a dependency to your own role.
 | `sudo_list` | List of users and their sudo settings **(see details!)** | `[]` |
 | `sudo_list_host`| List of users and their sudo settings **(see details!)**  | `[]` |
 | `sudo_list_group` | List of users and their sudo settings **(see details!)** | `[]` |
-| `sudo_default_sudoers` | Restore default sudoers file if altered? | `yes` |
-| `sudo_default_sudoers_src_path` | Path (local) to default sudoers file | path to inlcuded default file |
+| `sudo_default_sudoers` | Restore default sudoers file if altered? | `no` |
+| `sudo_default_sudoers_src_path` | Path (local) to default sudoers file | path to included default file |
 | `sudo_defaults` | List of defaults | `[]` |
 | `sudo_host_aliases` | List of host aliases **(see details!)** | `[]` |
 | `sudo_user_aliases` | List of user aliases **(see details!)** | `[]` |
