@@ -10,7 +10,10 @@ sudo_list_host: []
 sudo_list_group: []
 
 # Restore default sudoers file?
-sudo_default_sudoers: yes
+sudo_default_sudoers: no
+
+# Sudoers file to restore
+sudo_default_sudoers_src_path: 'etc-sudoers'
 
 # Defaults
 sudo_defaults: []

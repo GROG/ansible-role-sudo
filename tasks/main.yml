@@ -11,7 +11,7 @@
 - name: Restore default sudoers file
   copy:
     backup: yes
-    src: 'etc-sudoers'
+    src: "{{ sudo_default_sudoers_src_path }}"
     dest: '/etc/sudoers'
     owner: root
     group: root
