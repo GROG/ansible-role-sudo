@@ -13,6 +13,15 @@ users/roles.
 The defaults and aliases however can only be managed from one location and
 should not be specified if you add this role as a dependency to your own role.
 
+Following roles where designed to neatly work together with this role:
+
+- [user](https://galaxy.ansible.com/list#/roles/4730), for managing users.
+- [authorized-key](https://galaxy.ansible.com/list#/roles/4737), for managing
+  authorized-keys.
+
+The [management-user](https://galaxy.ansible.com/list#/roles/4793) role
+combines all these roles in one easy to use role.
+
 ## Requirements
 
 - Hosts should be bootstrapped for ansible usage (have python,...)
