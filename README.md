@@ -1,6 +1,6 @@
 # Sudo
 
-[![Ansible Galaxy](http://img.shields.io/badge/galaxy-GROG.sudo-660198.svg?style=flat)](https://galaxy.ansible.com/list#/roles/4765)
+[![Ansible Galaxy](http://img.shields.io/badge/galaxy-GROG.sudo-660198.svg?style=flat)](https://galaxy.ansible.com/GROG/sudo)
 [![Build Status](https://travis-ci.org/GROG/ansible-role-sudo.svg?branch=master)](https://travis-ci.org/GROG/ansible-role-sudo)
 
 A role for managing sudo.
