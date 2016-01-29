@@ -122,10 +122,6 @@ sudo_list_group:
       commands: ALL
 ```
 
-## License
-
-LGPLv3
-
 ## Contributing
 
 All assistance, changes or ideas [welcome](https://github.com/GROG/ansible-role-sudo/issues)!
@@ -133,3 +129,6 @@ All assistance, changes or ideas [welcome](https://github.com/GROG/ansible-role-
 ## Author Information
 
 By [G. Roggemans](https://github.com/groggemans)
+
+## License
+MIT
