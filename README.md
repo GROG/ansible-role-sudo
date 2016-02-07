@@ -1,7 +1,9 @@
 # Sudo
 
-[![Ansible Galaxy](http://img.shields.io/badge/galaxy-GROG.sudo-660198.svg?style=flat)](https://galaxy.ansible.com/GROG/sudo)
-[![Build Status](https://travis-ci.org/GROG/ansible-role-sudo.svg?branch=master)](https://travis-ci.org/GROG/ansible-role-sudo)
+[![Ansible Galaxy][galaxy_image]][galaxy_link]
+[![Build Status][travis_image]][travis_link]
+[![Latest tag][tag_image]][tag_url]
+[![Gitter chat][gitter_image]][gitter_url]
 
 A role for managing sudo.
 
@@ -15,12 +17,11 @@ should not be specified if you add this role as a dependency to your own role.
 
 Following roles where designed to neatly work together with this role:
 
-- [user](https://galaxy.ansible.com/list#/roles/4730), for managing users.
-- [authorized-key](https://galaxy.ansible.com/list#/roles/4737), for managing
-  authorized-keys.
+- [user][grog.user], for managing users.
+- [authorized-key][grog.authorized-key], for managing authorized-keys.
 
-The [management-user](https://galaxy.ansible.com/list#/roles/4793) role
-combines all these roles in one easy to use role.
+The [management-user][grog.management-user] role combines all these roles in
+one easy to use role.
 
 ## Requirements
 
@@ -123,12 +124,26 @@ sudo_list_group:
 ```
 
 ## Contributing
-
-All assistance, changes or ideas [welcome](https://github.com/GROG/ansible-role-sudo/issues)!
+All assistance, changes or ideas [welcome][issues]!
 
 ## Author
-
-By [G. Roggemans](https://github.com/groggemans)
+By [G. Roggemans][groggemans]
 
 ## License
 MIT
+
+[galaxy_image]:         http://img.shields.io/badge/galaxy-GROG.sudo-660198.svg?style=flat
+[galaxy_link]:          https://galaxy.ansible.com/GROG/sudo
+[travis_image]:         https://travis-ci.org/GROG/ansible-role-sudo.svg?branch=master
+[travis_link]:          https://travis-ci.org/GROG/ansible-role-sudo
+[tag_image]:            https://img.shields.io/github/tag/GROG/ansible-role-sudo.svg
+[tag_url]:              https://github.com/GROG/ansible-role-sudo/tags
+[gitter_image]:         https://badges.gitter.im/GROG/chat.svg
+[gitter_url]:           https://gitter.im/GROG/chat
+
+[grog.user]:            https://galaxy.ansible.com/GROG/user
+[grog.authorized-key]:  https://galaxy.ansible.com/GROG/authorized-key
+[grog.management-user]: https://galaxy.ansible.com/GROG/management-user
+
+[issues]:               https://github.com/GROG/ansible-role-sudo/issues
+[groggemans]:           https://github.com/groggemans
