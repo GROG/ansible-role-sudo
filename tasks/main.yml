@@ -61,6 +61,6 @@
     validate: visudo -cf %s
   when: item.sudo is defined
   with_flattened:
-    - sudo_list
-    - sudo_list_group
-    - sudo_list_host
+    - "{{ sudo_list }}"
+    - "{{ sudo_list_group }}"
+    - "{{ sudo_list_host }}"
