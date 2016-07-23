@@ -26,3 +26,5 @@ dependencies:
     version: v1.2.2
     when: >
       (sudo_package|string in 'True,true,Yes,yes')
+    package_list:
+      - name: sudo
