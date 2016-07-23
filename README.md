@@ -100,8 +100,7 @@ sudo_***_aliases:
 ```
 
 ## Dependencies
-
-None.
+- [GROG.package][grog.package]
 
 ## Example Playbook
 
@@ -144,6 +143,7 @@ MIT
 [grog.user]:            https://galaxy.ansible.com/GROG/user
 [grog.authorized-key]:  https://galaxy.ansible.com/GROG/authorized-key
 [grog.management-user]: https://galaxy.ansible.com/GROG/management-user
+[grog.package]:         https://galaxy.ansible.com/GROG/package
 
 [issues]:               https://github.com/GROG/ansible-role-sudo/issues
 [groggemans]:           https://github.com/groggemans
