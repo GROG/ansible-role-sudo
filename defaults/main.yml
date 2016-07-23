@@ -1,4 +1,6 @@
 ---
+# Install sudo if not available?
+sudo_package: yes
 
 # list of sudo users
 sudo_list: []

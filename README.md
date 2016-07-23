@@ -27,12 +27,12 @@ one easy to use role.
 
 - Hosts should be bootstrapped for ansible usage (have python,...)
 - Root privileges, eg `become: yes`
-- Sudo should be available
 
 ## Role Variables
 
 | Variable | Description | Default value |
 |----------|-------------|---------------|
+| `sudo_package` | Install sudo if not available | `yes` |
 | `sudo_list` | List of users and their sudo settings **(see details!)** | `[]` |
 | `sudo_list_host`| List of users and their sudo settings **(see details!)**  | `[]` |
 | `sudo_list_group` | List of users and their sudo settings **(see details!)** | `[]` |

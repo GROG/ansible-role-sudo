@@ -23,6 +23,7 @@
 - name: Enable sudoers.d
   lineinfile:
     backup: yes
+    create: yes
     dest: '/etc/sudoers'
     line: "#includedir {{ sudo_sudoersd_dir }}"
     regexp: '^#includedir .*'
