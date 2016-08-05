@@ -59,7 +59,18 @@ Each item in the list can have following attributes:
 | `hosts` | Hosts | yes | / |
 | `as` | Operators | yes | / |
 | `commands` | Commands | yes | / |
-| `nopasswd` | No password sudo? | no | `no` |
+| `nopasswd` | NOPASSWD flag | no | `no` |
+| `passwd` | PASSWD flag | no | `no` |
+| `noexec` | NOEXEC flag | no | `no` |
+| `exec` | EXEC flag | no | `no` |
+| `nosetenv` | NOSETENV flag | no | `no` |
+| `setenv` | SETENV flag | no | `no` |
+| `nologinput` | NOLOG_INPUT flag | no | `no` |
+| `loginput` | LOG_INPUT flag | no | `no` |
+| `nologoutput` | NOLOG_OUTPUT flag | no | `no` |
+| `logoutput` | LOG_OUTPUT flag | no | `no` |
+
+You can provide these attrubutes in a list if a user needs multiple entries.
 
 ###### Example `sudo_list`
 
@@ -68,7 +79,7 @@ sudo_list:
   - name: root
     sudo:
       hosts: ALL
-      as: ALL
+      as: ALL:ALL
       commands: ALL
   - name: user1
   - name: user2
@@ -77,6 +88,16 @@ sudo_list:
       as: ALL
       commands: ALL
       nopasswd: yes
+  - name: user3
+    sudo:
+      - hosts: ALL
+        as: root
+        commands: /usr/sbin/poweroff
+        nopasswd: yes
+      - hosts: ALL
+        as: ALL
+        commands: /usr/sbin/less
+        noexec: yes
 ```
 
 #### `sudo_***_aliases` details
