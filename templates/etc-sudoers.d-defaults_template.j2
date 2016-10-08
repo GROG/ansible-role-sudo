@@ -2,5 +2,9 @@
 
 # Defaults
 {% for defaults in sudo_defaults %}
+{% if defaults.params is defined %}
+Defaults{{ defaults.filter | default('') }} {{ defaults.params }}
+{% else %}
 Defaults {{ defaults }}
+{% endif %}
 {% endfor %}
