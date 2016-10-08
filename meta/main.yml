@@ -23,7 +23,7 @@ allow_duplicates: yes
 
 dependencies:
   - role: GROG.package
-    version: v1.2.2
+    version: v1.2.3
     when: >
       (sudo_package|string in 'True,true,Yes,yes')
     package_list:
