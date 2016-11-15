@@ -40,3 +40,7 @@ script:
     | grep -q 'changed=0.*failed=0'
     && (echo 'Idempotence test: pass' && exit 0)
     || (echo 'Idempotence test: fail' && exit 1)
+
+  # Test files are created
+  - sudo cat /etc/sudoers.d/10group
+  - sudo cat /etc/sudoers.d/20user
