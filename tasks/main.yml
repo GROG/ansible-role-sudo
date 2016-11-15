@@ -52,6 +52,20 @@
           (sudo_runas_aliases|length > 0) or
           (sudo_cmnd_aliases|length > 0) )
 
+- name: Apply sudoers group configuration
+  template:
+    src: 'etc-sudoers.d-group_template.j2'
+    dest: "{{ sudo_sudoersd_dir }}/10{{ item.name }}"
+    owner: root
+    group: root
+    mode: 0440
+    validate: visudo -cf %s
+  when: item.sudo is defined
+  with_flattened:
+    - "{{ sudo_grouplist }}"
+    - "{{ sudo_grouplist_group }}"
+    - "{{ sudo_grouplist_host }}"
+
 - name: Apply sudoers user configuration
   template:
     src: 'etc-sudoers.d-user_template.j2'

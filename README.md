@@ -30,20 +30,23 @@ one easy to use role.
 
 ## Role Variables
 
-| Variable                        | Description                                              | Default value                 |
-|---------------------------------|----------------------------------------------------------|-------------------------------|
-| `sudo_package`                  | Install sudo if not available                            | `yes`                         |
-| `sudo_list`                     | List of users and their sudo settings **(see details!)** | `[]`                          |
-| `sudo_list_host`                | List of users and their sudo settings **(see details!)** | `[]`                          |
-| `sudo_list_group`               | List of users and their sudo settings **(see details!)** | `[]`                          |
-| `sudo_default_sudoers`          | Restore default sudoers file if altered?                 | `no`                          |
-| `sudo_default_sudoers_src_path` | Path (local) to default sudoers file                     | path to included default file |
-| `sudo_defaults`                 | List of defaults **(see details!)**                      | `[]`                          |
-| `sudo_host_aliases`             | List of host aliases **(see details!)**                  | `[]`                          |
-| `sudo_user_aliases`             | List of user aliases **(see details!)**                  | `[]`                          |
-| `sudo_runas_aliases`            | List of run as aliases **(see details!)**                | `[]`                          |
-| `sudo_cmnd_aliases`             | List of command aliases **(see details!)**               | `[]`                          |
-| `sudo_sudoersd_dir`             | Sudoers.d directory                                      | '/etc/sudoers.d'              |
+| Variable                        | Description                                               | Default value                 |
+|---------------------------------|-----------------------------------------------------------|-------------------------------|
+| `sudo_package`                  | Install sudo if not available                             | `yes`                         |
+| `sudo_list`                     | List of users and their sudo settings **(see details!)**  | `[]`                          |
+| `sudo_list_host`                | List of users and their sudo settings **(see details!)**  | `[]`                          |
+| `sudo_list_group`               | List of users and their sudo settings **(see details!)**  | `[]`                          |
+| `sudo_grouplist`                | List of groups and their sudo settings **(see details!)** | `[]`                          |
+| `sudo_grouplist_host`           | List of groups and their sudo settings **(see details!)** | `[]`                          |
+| `sudo_grouplist_group`          | List of groups and their sudo settings **(see details!)** | `[]`                          |
+| `sudo_default_sudoers`          | Restore default sudoers file if altered?                  | `no`                          |
+| `sudo_default_sudoers_src_path` | Path (local) to default sudoers file                      | path to included default file |
+| `sudo_defaults`                 | List of defaults **(see details!)**                       | `[]`                          |
+| `sudo_host_aliases`             | List of host aliases **(see details!)**                   | `[]`                          |
+| `sudo_user_aliases`             | List of user aliases **(see details!)**                   | `[]`                          |
+| `sudo_runas_aliases`            | List of run as aliases **(see details!)**                 | `[]`                          |
+| `sudo_cmnd_aliases`             | List of command aliases **(see details!)**                | `[]`                          |
+| `sudo_sudoersd_dir`             | Sudoers.d directory                                       | '/etc/sudoers.d'              |
 
 #### `sudo_defaults` details
 
@@ -80,10 +83,11 @@ sudo_defaults:
 
 `sudo_list`, `sudo_list_host` and `sudo_list_group` are merged when managing
 the sudo settings. You can use the host and group lists to specify users
-settings per host or group off hosts.
+settings per host or group off hosts. The `sudo_grouplist` variables work the
+same way, but for group based sudo settings (name will be prepended with `%`).
 
-The sudo list allows you to define which users sudo settings must be managed.
-Each item in the list can have following attributes:
+The sudo lists allows you to define which users/groups sudo settings must be
+managed. Each item in the list can have following attributes:
 
 | Variable      | Description       | Required | Default |
 |---------------|-------------------|----------|---------|
@@ -101,7 +105,7 @@ Each item in the list can have following attributes:
 | `nologoutput` | NOLOG_OUTPUT flag | no       | `no`    |
 | `logoutput`   | LOG_OUTPUT flag   | no       | `no`    |
 
-You can provide these attributes in a list if a user needs multiple entries.
+You can provide these attributes in a list if a user/group needs multiple entries.
 
 ###### Example `sudo_list`
 
@@ -113,12 +117,6 @@ sudo_list:
       as: ALL:ALL
       commands: ALL
   - name: user1
-  - name: user2
-    sudo:
-      hosts: ALL
-      as: ALL
-      commands: ALL
-      nopasswd: yes
   - name: user3
     sudo:
       - hosts: ALL
@@ -129,6 +127,14 @@ sudo_list:
         as: ALL
         commands: /usr/sbin/less
         noexec: yes
+
+sudo_grouplist:
+  - name: group1
+    sudo:
+      hosts: ALL
+      as: ALL
+      commands: ALL
+      nopasswd: yes
 ```
 
 #### `sudo_***_aliases` details
@@ -144,11 +150,15 @@ list has a name and an alias.
 ###### Example `sudo_***_aliases`
 
 ```yaml
-sudo_***_aliases:
-  - name: EXAMPLE1
-    alias: 'shutdown'
+sudo_cmnd_aliases:
+  - name: POWER
+    alias: 'shutdown, reboot'
+  - name: APT
+    alias: 'apt-get'
+
+sudo_user_aliases:
   - name: EXPAMPLE2
-    alias: 'test, test1, test2'
+    alias: 'user1, user2, user3'
 ```
 
 ## Dependencies
@@ -160,7 +170,8 @@ sudo_***_aliases:
 ---
 - hosts: servers
   roles:
-  - { role: GROG.sudo, become: yes }
+  - role: GROG.sudo
+    become: yes
 ```
 
 Inside `group_vars/servers.yml`:
