@@ -21,13 +21,4 @@ galaxy_info:
 
 allow_duplicates: yes
 
-dependencies:
-  - role: GROG.package
-    version: v1.2.3
-    package_state: present
-    package_list:
-      - name: sudo
-    package_list_host: []
-    package_list_group: []
-    when: >
-      (sudo_package|string in 'True,true,Yes,yes')
+dependencies: []

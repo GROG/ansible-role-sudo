@@ -29,10 +29,10 @@ one easy to use role.
 - Root privileges, eg `become: yes`
 
 ## Role Variables
-
 | Variable                        | Description                                               | Default value                 |
 |---------------------------------|-----------------------------------------------------------|-------------------------------|
-| `sudo_package`                  | Install sudo if not available                             | `yes`                         |
+| `sudo_visudo`                   | Path to visudo or other sudo syntax check                 | `/sbin/visudo`                |
+| `sudo_package_name`             | Package name to install                                   | `sudo`                        |
 | `sudo_list`                     | List of users and their sudo settings **(see details!)**  | `[]`                          |
 | `sudo_list_host`                | List of users and their sudo settings **(see details!)**  | `[]`                          |
 | `sudo_list_group`               | List of users and their sudo settings **(see details!)**  | `[]`                          |
@@ -47,6 +47,7 @@ one easy to use role.
 | `sudo_runas_aliases`            | List of run as aliases **(see details!)**                 | `[]`                          |
 | `sudo_cmnd_aliases`             | List of command aliases **(see details!)**                | `[]`                          |
 | `sudo_sudoersd_dir`             | Sudoers.d directory                                       | '/etc/sudoers.d'              |
+| `sudo_sudoersd_dir_purge`       | Sudoers.d directory purge files or not (boolean)          | 'false'                       |
 
 #### `sudo_defaults` details
 
