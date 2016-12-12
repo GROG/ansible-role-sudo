@@ -1,4 +1,6 @@
 ---
+- name: "Install package {{ sudo_package_name }}"
+  package: name={{ sudo_package_name}} state=present
 
 - name: Make sure sudoers.d dir is available
   file:
@@ -8,74 +10,113 @@
     group: root
     mode: 0750
 
-- name: Restore default sudoers file
-  copy:
-    backup: yes
-    src: "{{ sudo_default_sudoers_src_path }}"
-    dest: '/etc/sudoers'
-    owner: root
-    group: root
-    mode: 0440
-    validate: visudo -cf %s
-  when: sudo_default_sudoers|string in 'True.true.Yes.yes'
-    # Checked as string to make sure it can be specified from the command line.
+- name: Verify original sudoers configuration
+  shell: "{{ sudo_visudo }} -cf /etc/sudoers"
+  register: origsudoers
 
-- name: Enable sudoers.d
-  lineinfile:
-    backup: yes
-    create: yes
-    dest: '/etc/sudoers'
-    line: "#includedir {{ sudo_sudoersd_dir }}"
-    regexp: '^#includedir .*'
-    validate: visudo -cf %s
+- block:
+  - name: Temporary sudoers configuration directory
+    shell: mktemp -d
+    register: tempdir
+  
+  - name: Temporary sudoers.d dir is available
+    file:
+      path: "{{ tempdir.stdout_lines[0] }}/{{ sudo_sudoersd_dir }}"
+      state: directory
+      owner: root
+      group: root
+      mode: 0700
 
-- name: Apply sudoers defaults configuration
-  template:
-    src: 'etc-sudoers.d-defaults_template.j2'
-    dest: "{{ sudo_sudoersd_dir }}/00defaults"
-    owner: root
-    group: root
-    mode: 0440
-    validate: visudo -cf %s
-  when: sudo_defaults|length > 0
+  - name: Temporary make sudoers includeonly
+    lineinfile:
+      backup: yes
+      create: yes
+      dest: "{{ tempdir.stdout_lines[0] }}/etc/sudoers"
+      line: "#includedir {{ tempdir.stdout_lines[0] }}/{{ sudo_sudoersd_dir }}"
+      regexp: '^#includedir .*'
 
-- name: Apply sudoers aliases configuration
-  template:
-    src: 'etc-sudoers.d-aliases_template.j2'
-    dest: "{{ sudo_sudoersd_dir }}/10aliases"
-    owner: root
-    group: root
-    mode: 0440
-    validate: visudo -cf %s
-  when: ( (sudo_host_aliases|length > 0) or
-          (sudo_user_aliases|length > 0) or
-          (sudo_runas_aliases|length > 0) or
-          (sudo_cmnd_aliases|length > 0) )
+  - name: Temporary apply sudoers defaults configuration
+    template:
+      src: 'etc-sudoers.d-defaults_template.j2'
+      dest: "{{ tempdir.stdout_lines[0] }}/{{ sudo_sudoersd_dir }}/00defaults"
+      owner: root
+      group: root
+      mode: 0440
+    when: sudo_defaults|length > 0
 
-- name: Apply sudoers group configuration
-  template:
-    src: 'etc-sudoers.d-group_template.j2'
-    dest: "{{ sudo_sudoersd_dir }}/10{{ item.name }}"
-    owner: root
-    group: root
-    mode: 0440
-    validate: visudo -cf %s
-  when: item.sudo is defined
-  with_flattened:
-    - "{{ sudo_grouplist }}"
-    - "{{ sudo_grouplist_group }}"
-    - "{{ sudo_grouplist_host }}"
+  - name: Temporary apply sudoers aliases configuration
+    template:
+      src: 'etc-sudoers.d-aliases_template.j2'
+      dest: "{{ tempdir.stdout_lines[0] }}/{{ sudo_sudoersd_dir }}/10aliases"
+      owner: root
+      group: root
+      mode: 0440
+    when: ( (sudo_host_aliases|length > 0) or
+            (sudo_user_aliases|length > 0) or
+            (sudo_runas_aliases|length > 0) or
+            (sudo_cmnd_aliases|length > 0) )
 
-- name: Apply sudoers user configuration
-  template:
-    src: 'etc-sudoers.d-user_template.j2'
-    dest: "{{ sudo_sudoersd_dir }}/20{{ item.name }}"
-    owner: root
-    group: root
-    mode: 0440
-    validate: visudo -cf %s
-  when: item.sudo is defined
-  with_flattened:
-    - "{{ sudo_list }}"
-    - "{{ sudo_list_group }}"
-    - "{{ sudo_list_host }}"
+  - name: Temporary apply sudoers group configuration
+    template:
+      src: 'etc-sudoers.d-group_template.j2'
+      dest: "{{ tempdir.stdout_lines[0] }}/{{ sudo_sudoersd_dir }}/10{{ item.name }}"
+      owner: root
+      group: root
+      mode: 0440
+    when: item.sudo is defined
+    with_flattened:
+      - "{{ sudo_grouplist }}"
+      - "{{ sudo_grouplist_group }}"
+      - "{{ sudo_grouplist_host }}"
+
+  - name: Temporary apply sudoers user configuration
+    template:
+      src: 'etc-sudoers.d-user_template.j2'
+      dest: "{{ tempdir.stdout_lines[0] }}/{{ sudo_sudoersd_dir }}/20{{ item.name }}"
+      owner: root
+      group: root
+      mode: 0440
+    when: item.sudo is defined
+    with_flattened:
+      - "{{ sudo_list }}"
+      - "{{ sudo_list_group }}"
+      - "{{ sudo_list_host }}"
+
+  - name: Temporary sudoers integrity check
+    shell: "{{ sudo_visudo }} -cf {{ tempdir.stdout_lines[0]}}/etc/sudoers"
+    register: visudocheck
+
+  - debug: var=visudocheck
+
+  rescue:
+
+    - debug: msg="Temporary sudoers integrity check failed NOT PERFORMING CHANGES!"
+
+    - name: Cleanup
+      include: cleanup.yml
+- block:
+  - name: Remove temporary path make sudoers includeonly
+    replace:
+      dest: "{{ tempdir.stdout_lines[0] }}/etc/sudoers"
+      regexp: "{{ tempdir.stdout_lines[0] }}"
+      replace: ''
+
+  - name: Purge and copy sudo files
+    shell: "rm -Rvf {{sudo_sudoersd_dir}}/* ; cp -Rv {{ tempdir.stdout_lines[0] }}/* /etc/"
+    when: sudo_sudoersd_dir_purge
+    register: sudocopy
+
+  - name: Copy sudo files
+    shell: "cp -Rv {{ tempdir.stdout_lines[0] }}/* /"
+    when: not sudo_sudoersd_dir_purge
+    register: sudocopy
+
+  - debug: var=sudocopy
+
+  rescue:
+    - debug: msg="Copy sudo files failed"
+
+  always:
+    - name: Cleanup
+      include: cleanup.yml
+

@@ -1,6 +1,9 @@
 ---
-# Install sudo if not available?
-sudo_package: yes
+# command to verify sudoers
+sudo_visudo: /sbin/visudo
+
+# name of package to install
+sudo_package_name: sudo
 
 # list of sudo users
 sudo_list: []
@@ -43,3 +46,6 @@ sudo_cmnd_aliases: []
 
 # Sudoersd directory
 sudo_sudoersd_dir: /etc/sudoers.d
+
+# delete all files in sudoersd directory
+sudo_sudoersd_dir_purge: False
