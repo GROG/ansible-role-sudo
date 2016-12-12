@@ -102,7 +102,7 @@
       replace: ''
 
   - name: Purge and copy sudo files
-    shell: "rm -Rvf {{sudo_sudoersd_dir}}/* ; cp -Rv {{ tempdir.stdout_lines[0] }}/* /etc/"
+    shell: "rm -Rvf {{sudo_sudoersd_dir}}/* ; cp -Rv {{ tempdir.stdout_lines[0] }}/* /"
     when: sudo_sudoersd_dir_purge
     register: sudocopy
 
