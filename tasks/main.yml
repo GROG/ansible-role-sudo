@@ -69,7 +69,7 @@
 - name: Apply sudoers user configuration
   template:
     src: 'etc-sudoers.d-user_template.j2'
-    dest: "{{ sudo_sudoersd_dir }}/20{{ item.name }}"
+    dest: "{{ sudo_sudoersd_dir }}/20{{ item.name if not item.name.startswith('%') else item.name[1:] }}"
     owner: root
     group: root
     mode: 0440
