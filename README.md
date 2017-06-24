@@ -86,8 +86,25 @@ the sudo settings. You can use the host and group lists to specify users
 settings per host or group off hosts. The `sudo_grouplist` variables work the
 same way, but for group based sudo settings (name will be prepended with `%`).
 
-The sudo lists allows you to define which users/groups sudo settings must be
-managed. Each item in the list can have following attributes:
+Each item in the list should have a `name`and optionaly a `sudo` rule list and
+a `sudoers_file` variable to specify a custom filename. This way you can use
+the same list that you pass to your user management role.
+
+```yaml
+sudo_list:
+  - name: root
+    other_setting: 'this is ok'
+    sudo:
+        - '...'
+  - name: user1
+    sudoers_file: custom
+    sudo:
+        - '...'
+  - name: user3
+```
+
+The `sudo` list allows you to define one or more sudo rules. Possible
+attributes for each list entry;
 
 | Variable      | Description       | Required | Default |
 |---------------|-------------------|----------|---------|
@@ -104,8 +121,6 @@ managed. Each item in the list can have following attributes:
 | `loginput`    | LOG_INPUT flag    | no       | `no`    |
 | `nologoutput` | NOLOG_OUTPUT flag | no       | `no`    |
 | `logoutput`   | LOG_OUTPUT flag   | no       | `no`    |
-
-You can provide these attributes in a list if a user/group needs multiple entries.
 
 ###### Example `sudo_list`
 
@@ -130,6 +145,7 @@ sudo_list:
 
 sudo_grouplist:
   - name: group1
+    sudoers_file: 50custom-group-rules
     sudo:
       hosts: ALL
       as: ALL

@@ -17,8 +17,7 @@
     group: root
     mode: 0440
     validate: visudo -cf %s
-  when: sudo_default_sudoers|string in 'True.true.Yes.yes'
-    # Checked as string to make sure it can be specified from the command line.
+  when: sudo_default_sudoers|bool
 
 - name: Enable sudoers.d
   lineinfile:
@@ -55,7 +54,7 @@
 - name: Apply sudoers group configuration
   template:
     src: 'etc-sudoers.d-group_template.j2'
-    dest: "{{ sudo_sudoersd_dir }}/10{{ item.name }}"
+    dest: "{{ sudo_sudoersd_dir }}/10{{ item.sudoers_file|default(item.name) }}"
     owner: root
     group: root
     mode: 0440
@@ -69,7 +68,7 @@
 - name: Apply sudoers user configuration
   template:
     src: 'etc-sudoers.d-user_template.j2'
-    dest: "{{ sudo_sudoersd_dir }}/20{{ item.name }}"
+    dest: "{{ sudo_sudoersd_dir }}/20{{ item.sudoers_file|default(item.name) }}"
     owner: root
     group: root
     mode: 0440
