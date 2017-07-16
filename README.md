@@ -76,7 +76,7 @@ sudo_defaults:
   - filter: '!LOG_VIEWERS'
     params: 'noexec'
   - filter: '@localhost'
-    params: '!requirtty'
+    params: '!requiretty'
 ```
 
 #### `sudo_list` details
