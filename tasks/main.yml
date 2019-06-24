@@ -59,7 +59,20 @@
     group: root
     mode: 0440
     validate: visudo -cf %s
-  when: item.sudo is defined
+  when:
+    - item.sudo is defined
+    - (item.state | default('present')) != "absent"
+  with_flattened:
+    - "{{ sudo_grouplist }}"
+    - "{{ sudo_grouplist_group }}"
+    - "{{ sudo_grouplist_host }}"
+
+- name: Cleanup sudoers configuration for absent groups
+  file:
+    path: "{{ sudo_sudoersd_dir }}/{{ item.sudoers_file|default('10' + item.name) }}"
+    state: absent
+  when:
+    - (item.state | default('present')) == "absent"
   with_flattened:
     - "{{ sudo_grouplist }}"
     - "{{ sudo_grouplist_group }}"
@@ -73,7 +86,20 @@
     group: root
     mode: 0440
     validate: visudo -cf %s
-  when: item.sudo is defined
+  when:
+    - item.sudo is defined
+    - (item.state | default('present')) != "absent"
+  with_flattened:
+    - "{{ sudo_list }}"
+    - "{{ sudo_list_group }}"
+    - "{{ sudo_list_host }}"
+
+- name: Cleanup sudoers configuration for absent users
+  file:
+    path: "{{ sudo_sudoersd_dir }}/{{ item.sudoers_file|default('20' + item.name) }}"
+    state: absent
+  when:
+    - (item.state | default('present')) == "absent"
   with_flattened:
     - "{{ sudo_list }}"
     - "{{ sudo_list_group }}"
