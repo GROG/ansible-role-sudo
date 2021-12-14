@@ -47,6 +47,8 @@ one easy to use role.
 | `sudo_runas_aliases`            | List of run as aliases **(see details!)**                 | `[]`                          |
 | `sudo_cmnd_aliases`             | List of command aliases **(see details!)**                | `[]`                          |
 | `sudo_sudoersd_dir`             | Sudoers.d directory                                       | '/etc/sudoers.d'              |
+| `sudo_sudoersd_owner`           | Owner of the directories and files                        | 'root'                        |
+| `sudo_sudoersd_group`           | Group of the directories and files                        | 'root'                        |
 
 #### `sudo_defaults` details
 
