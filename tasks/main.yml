@@ -4,8 +4,8 @@
   file:
     path: "{{ sudo_sudoersd_dir }}"
     state: directory
-    owner: root
-    group: root
+    owner: "{{ sudo_sudoersd_owner }}"
+    group: "{{ sudo_sudoersd_group }}"
     mode: 0750
 
 - name: Restore default sudoers file
@@ -13,8 +13,8 @@
     backup: yes
     src: "{{ sudo_default_sudoers_src_path }}"
     dest: '/etc/sudoers'
-    owner: root
-    group: root
+    owner: "{{ sudo_sudoersd_owner }}"
+    group: "{{ sudo_sudoersd_group }}"
     mode: 0440
     validate: visudo -cf %s
   when: sudo_default_sudoers|bool
@@ -32,8 +32,8 @@
   template:
     src: 'etc-sudoers.d-defaults_template.j2'
     dest: "{{ sudo_sudoersd_dir }}/00defaults"
-    owner: root
-    group: root
+    owner: "{{ sudo_sudoersd_owner }}"
+    group: "{{ sudo_sudoersd_group }}"
     mode: 0440
     validate: visudo -cf %s
   when: sudo_defaults|length > 0
@@ -42,8 +42,8 @@
   template:
     src: 'etc-sudoers.d-aliases_template.j2'
     dest: "{{ sudo_sudoersd_dir }}/10aliases"
-    owner: root
-    group: root
+    owner: "{{ sudo_sudoersd_owner }}"
+    group: "{{ sudo_sudoersd_group }}"
     mode: 0440
     validate: visudo -cf %s
   when: ( (sudo_host_aliases|length > 0) or
@@ -55,8 +55,8 @@
   template:
     src: 'etc-sudoers.d-group_template.j2'
     dest: "{{ sudo_sudoersd_dir }}/{{ item.sudoers_file|default('10' + item.name) }}"
-    owner: root
-    group: root
+    owner: "{{ sudo_sudoersd_owner }}"
+    group: "{{ sudo_sudoersd_group }}"
     mode: 0440
     validate: visudo -cf %s
   when:
@@ -82,8 +82,8 @@
   template:
     src: 'etc-sudoers.d-user_template.j2'
     dest: "{{ sudo_sudoersd_dir }}/{{ item.sudoers_file|default('20' + item.name) }}"
-    owner: root
-    group: root
+    owner: "{{ sudo_sudoersd_owner }}"
+    group: "{{ sudo_sudoersd_group }}"
     mode: 0440
     validate: visudo -cf %s
   when:

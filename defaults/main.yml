@@ -43,3 +43,9 @@ sudo_cmnd_aliases: []
 
 # Sudoersd directory
 sudo_sudoersd_dir: /etc/sudoers.d
+
+# Owner for files
+sudo_sudoersd_owner: root
+
+# Group for files
+sudo_sudoersd_group: root
