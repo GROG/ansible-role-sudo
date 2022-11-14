@@ -88,9 +88,14 @@ the sudo settings. You can use the host and group lists to specify users
 settings per host or group off hosts. The `sudo_grouplist` variables work the
 same way, but for group based sudo settings (name will be prepended with `%`).
 
-Each item in the list should have a `name`and optionaly a `sudo` rule list and
+Each item in the list should have a `name` and optionally a `sudo` rule list and
 a `sudoers_file` variable to specify a custom filename. This way you can use
 the same list that you pass to your user management role.
+
+When you wish to remove a sudo user/group item from the system do so by adding
+`state: absent` to the item. Ensuring removal of the matching `sudoers_file`
+from the system. Only deleting the item from the `_list` leaves the file behind
+in an unmanaged state, causing the old rule to remain in effect.
 
 ```yaml
 sudo_list:
@@ -103,6 +108,7 @@ sudo_list:
     sudo:
         - '...'
   - name: user3
+    state: absent
 ```
 
 The `sudo` list allows you to define one or more sudo rules. Possible
