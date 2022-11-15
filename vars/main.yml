@@ -1,0 +1,2 @@
+sudo_list_all: "{{ (sudo_list + sudo_list_host + sudo_list_group) | unique }}"
+sudo_grouplist_all: "{{ (sudo_grouplist + sudo_grouplist_host + sudo_grouplist_group) | unique }}"
