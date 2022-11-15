@@ -62,10 +62,7 @@
   when:
     - item.sudo is defined
     - (item.state | default('present')) != "absent"
-  with_flattened:
-    - "{{ sudo_grouplist }}"
-    - "{{ sudo_grouplist_group }}"
-    - "{{ sudo_grouplist_host }}"
+  loop: "{{ sudo_grouplist_all }}"
 
 - name: Cleanup sudoers configuration for absent groups
   file:
@@ -73,10 +70,7 @@
     state: absent
   when:
     - (item.state | default('present')) == "absent"
-  with_flattened:
-    - "{{ sudo_grouplist }}"
-    - "{{ sudo_grouplist_group }}"
-    - "{{ sudo_grouplist_host }}"
+  loop: "{{ sudo_grouplist_all }}"
 
 - name: Apply sudoers user configuration
   template:
@@ -89,10 +83,7 @@
   when:
     - item.sudo is defined
     - (item.state | default('present')) != "absent"
-  with_flattened:
-    - "{{ sudo_list }}"
-    - "{{ sudo_list_group }}"
-    - "{{ sudo_list_host }}"
+  loop: "{{ sudo_list_all }}"
 
 - name: Cleanup sudoers configuration for absent users
   file:
@@ -100,7 +91,4 @@
     state: absent
   when:
     - (item.state | default('present')) == "absent"
-  with_flattened:
-    - "{{ sudo_list }}"
-    - "{{ sudo_list_group }}"
-    - "{{ sudo_list_host }}"
+  loop: "{{ sudo_list_all }}"
