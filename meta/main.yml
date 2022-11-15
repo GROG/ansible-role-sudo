@@ -23,7 +23,7 @@ allow_duplicates: yes
 
 dependencies:
   - role: GROG.package
-    version: v1.2.4
+    version: v1.3.1
     package_state: present
     package_list:
       - name: sudo
