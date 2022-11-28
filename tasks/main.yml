@@ -1,7 +1,7 @@
 ---
 
 - name: Make sure sudoers.d dir is available
-  file:
+  ansible.builtin.file:
     path: "{{ sudo_sudoersd_dir }}"
     state: directory
     owner: "{{ sudo_sudoersd_owner }}"
@@ -9,7 +9,7 @@
     mode: 0750
 
 - name: Restore default sudoers file
-  copy:
+  ansible.builtin.copy:
     backup: yes
     src: "{{ sudo_default_sudoers_src_path }}"
     dest: '/etc/sudoers'
@@ -20,7 +20,7 @@
   when: sudo_default_sudoers|bool
 
 - name: Enable sudoers.d
-  lineinfile:
+  ansible.builtin.lineinfile:
     backup: yes
     create: yes
     dest: '/etc/sudoers'
@@ -29,7 +29,7 @@
     validate: visudo -cf %s
 
 - name: Apply sudoers defaults configuration
-  template:
+  ansible.builtin.template:
     src: 'etc-sudoers.d-defaults_template.j2'
     dest: "{{ sudo_sudoersd_dir }}/00defaults"
     owner: "{{ sudo_sudoersd_owner }}"
@@ -39,7 +39,7 @@
   when: sudo_defaults|length > 0
 
 - name: Apply sudoers aliases configuration
-  template:
+  ansible.builtin.template:
     src: 'etc-sudoers.d-aliases_template.j2'
     dest: "{{ sudo_sudoersd_dir }}/10aliases"
     owner: "{{ sudo_sudoersd_owner }}"
@@ -52,7 +52,7 @@
           (sudo_cmnd_aliases|length > 0) )
 
 - name: Apply sudoers group configuration
-  template:
+  ansible.builtin.template:
     src: 'etc-sudoers.d-group_template.j2'
     dest: "{{ sudo_sudoersd_dir }}/{{ item.sudoers_file|default('10' + item.name) }}"
     owner: "{{ sudo_sudoersd_owner }}"
@@ -65,7 +65,7 @@
   loop: "{{ sudo_grouplist_all }}"
 
 - name: Cleanup sudoers configuration for absent groups
-  file:
+  ansible.builtin.file:
     path: "{{ sudo_sudoersd_dir }}/{{ item.sudoers_file|default('10' + item.name) }}"
     state: absent
   when:
@@ -73,7 +73,7 @@
   loop: "{{ sudo_grouplist_all }}"
 
 - name: Apply sudoers user configuration
-  template:
+  ansible.builtin.template:
     src: 'etc-sudoers.d-user_template.j2'
     dest: "{{ sudo_sudoersd_dir }}/{{ item.sudoers_file|default('20' + item.name) }}"
     owner: "{{ sudo_sudoersd_owner }}"
@@ -86,7 +86,7 @@
   loop: "{{ sudo_list_all }}"
 
 - name: Cleanup sudoers configuration for absent users
-  file:
+  ansible.builtin.file:
     path: "{{ sudo_sudoersd_dir }}/{{ item.sudoers_file|default('20' + item.name) }}"
     state: absent
   when:
