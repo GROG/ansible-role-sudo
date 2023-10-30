@@ -6,26 +6,27 @@
     state: directory
     owner: "{{ sudo_sudoersd_owner }}"
     group: "{{ sudo_sudoersd_group }}"
-    mode: 0750
+    mode: "0750"
 
 - name: Restore default sudoers file
   ansible.builtin.copy:
-    backup: yes
+    backup: true
     src: "{{ sudo_default_sudoers_src_path }}"
     dest: '/etc/sudoers'
     owner: "{{ sudo_sudoersd_owner }}"
     group: "{{ sudo_sudoersd_group }}"
-    mode: 0440
+    mode: "0440"
     validate: visudo -cf %s
   when: sudo_default_sudoers|bool
 
 - name: Enable sudoers.d
   ansible.builtin.lineinfile:
-    backup: yes
-    create: yes
+    backup: true
+    create: true
     dest: '/etc/sudoers'
     line: "#includedir {{ sudo_sudoersd_dir }}"
     regexp: '^#includedir .*'
+    mode: "0750"
     validate: visudo -cf %s
 
 - name: Apply sudoers defaults configuration
@@ -34,7 +35,7 @@
     dest: "{{ sudo_sudoersd_dir }}/00defaults"
     owner: "{{ sudo_sudoersd_owner }}"
     group: "{{ sudo_sudoersd_group }}"
-    mode: 0440
+    mode: "0440"
     validate: visudo -cf %s
   when: sudo_defaults|length > 0
 
@@ -44,7 +45,7 @@
     dest: "{{ sudo_sudoersd_dir }}/10aliases"
     owner: "{{ sudo_sudoersd_owner }}"
     group: "{{ sudo_sudoersd_group }}"
-    mode: 0440
+    mode: "0440"
     validate: visudo -cf %s
   when: ( (sudo_host_aliases|length > 0) or
           (sudo_user_aliases|length > 0) or
@@ -57,7 +58,7 @@
     dest: "{{ sudo_sudoersd_dir }}/{{ item.sudoers_file|default('10' + item.name) }}"
     owner: "{{ sudo_sudoersd_owner }}"
     group: "{{ sudo_sudoersd_group }}"
-    mode: 0440
+    mode: "0440"
     validate: visudo -cf %s
   when:
     - item.sudo is defined
@@ -78,7 +79,7 @@
     dest: "{{ sudo_sudoersd_dir }}/{{ item.sudoers_file|default('20' + item.name) }}"
     owner: "{{ sudo_sudoersd_owner }}"
     group: "{{ sudo_sudoersd_group }}"
-    mode: 0440
+    mode: "0440"
     validate: visudo -cf %s
   when:
     - item.sudo is defined

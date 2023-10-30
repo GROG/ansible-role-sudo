@@ -1,6 +1,6 @@
 ---
 # Install sudo if not available?
-sudo_package: yes
+sudo_package: true
 
 # list of sudo users
 sudo_list: []
@@ -21,7 +21,7 @@ sudo_grouplist_host: []
 sudo_grouplist_group: []
 
 # Restore default sudoers file?
-sudo_default_sudoers: no
+sudo_default_sudoers: false
 
 # Sudoers file to restore
 sudo_default_sudoers_src_path: 'etc-sudoers'
