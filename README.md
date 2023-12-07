@@ -49,6 +49,7 @@ one easy to use role.
 | `sudo_sudoersd_dir`             | Sudoers.d directory                                       | '/etc/sudoers.d'              |
 | `sudo_sudoersd_owner`           | Owner of the directories and files                        | 'root'                        |
 | `sudo_sudoersd_group`           | Group of the directories and files                        | 'root'                        |
+| `sudo_hide_passwords`           | Hide passwords during execution?                          | `no`                          |
 
 #### `sudo_defaults` details
 

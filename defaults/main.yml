@@ -49,3 +49,6 @@ sudo_sudoersd_owner: root
 
 # Group for files
 sudo_sudoersd_group: root
+
+# Hide passwords
+sudo_hide_passwords: false

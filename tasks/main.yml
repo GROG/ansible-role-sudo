@@ -60,6 +60,7 @@
     group: "{{ sudo_sudoersd_group }}"
     mode: "0440"
     validate: visudo -cf %s
+  no_log: "{{ sudo_hide_passwords }}"
   when:
     - item.sudo is defined
     - (item.state | default('present')) != "absent"
@@ -81,6 +82,7 @@
     group: "{{ sudo_sudoersd_group }}"
     mode: "0440"
     validate: visudo -cf %s
+  no_log: "{{ sudo_hide_passwords }}"
   when:
     - item.sudo is defined
     - (item.state | default('present')) != "absent"
