@@ -25,7 +25,7 @@
     create: true
     dest: '/etc/sudoers'
     line: "#includedir {{ sudo_sudoersd_dir }}"
-    regexp: '^#includedir .*'
+    regexp: '^[#@]includedir .*'
     mode: "0750"
     validate: visudo -cf %s
 
