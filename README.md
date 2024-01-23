@@ -117,7 +117,7 @@ attributes for each list entry;
 | Variable      | Description       | Required | Default |
 |---------------|-------------------|----------|---------|
 | `hosts`       | Hosts             | yes      | /       |
-| `as`          | Operators         | yes      | /       |
+| `as`          | Operators         | no       | /       |
 | `commands`    | Commands          | yes      | /       |
 | `nopasswd`    | NOPASSWD flag     | no       | `no`    |
 | `passwd`      | PASSWD flag       | no       | `no`    |
@@ -145,6 +145,8 @@ sudo_list:
       - hosts: ALL
         as: root
         commands: /usr/sbin/poweroff
+      - hosts: ALL
+        commands: /usr/sbin/reboot
         nopasswd: yes
       - hosts: ALL
         as: ALL
